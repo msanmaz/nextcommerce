@@ -9,7 +9,7 @@ import axios from 'axios'
 
 const Prod = () => {
     const router = useRouter()
-    const [product,setProduct] = useState([])
+    const [product,setProduct] = useState({})
     const [loading,setLoading] = useState(true)
 
 
@@ -17,10 +17,17 @@ const Prod = () => {
         const fetchProduct = async () => {
             const {data} = await axios.get(`/api/products/${router.query.id}`)
             setProduct(data)
+            setLoading(false)
         }
 
-        fetchProduct()
-    },[])
+
+    const timer = setTimeout(() => {
+        fetchProduct();
+      }, 1000);
+  
+      return () => clearTimeout(timer);
+
+    },[loading])
     console.log(product)
 
         return (
